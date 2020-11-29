@@ -1,5 +1,7 @@
 package com.aljabi.masterarbeit.imageprocessing;
 
+import stddraw.StdDraw;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -7,7 +9,6 @@ import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.io.File;
 import java.io.IOException;
-import java.awt.Color;
 
 public class ImageProcessor {
     public BufferedImage loadImage(String filepath) throws IOException {
@@ -111,52 +112,46 @@ public class ImageProcessor {
         return Brightniss_y;
     }
 
-    public void ImageToHistogram (BufferedImage image) {
 
-        public static double[][] convertPictureToArray (BufferedImage image)
-        {
-            int width = image.getWidth();
-            int height = image.getHeight();
-            double[][] pixels = new double[width][height];
-            for (int col = 0; col < width; col++) {
-                for (int row = 0; row < height; row++) {
-                    int color = image.getRGB(col, row);
-                    pixels[col][row] = getIntensity(color);
-                }
+    public double[][] convertPictureToArray(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        double[][] pixels = new double[width][height];
+        for (int col = 0; col < width; col++) {
+            for (int row = 0; row < height; row++) {
+                int color = image.getRGB(col, row);
+                pixels[col][row] = getIntensity(color);
             }
-            return pixels;
         }
-        public void drawHistogram(double[][] a)
-        {
-            int m = a.length;
-            int n = a[0].length;
-            int pixels = m*n;
-            int[] histogram = new int[256];
-            StdDraw.setPenColor(StdDraw.BOOK_BLUE);
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    int intensity = (int) a[i][j];
-                    histogram[intensity]++;
-                }
-            }
-            StdDraw.setXscale(0,256);
-            StdDraw.setYscale(0,pixels/20); // obtained "20" by experimentation
-            StdDraw.enableDoubleBuffering();
-            for (int i = 0; i < 256; i++)
-            {
-                StdDraw.filledRectangle(i+0.5,histogram[i]/2,0.5,histogram[i]/2);
-            }
-            StdDraw.show();
-        }
+        return pixels;
     }
-    public double getIntensity(int color) // this method produces monochrome luminance
-        {
-            int r = (color >> 16) & 0xff;
-            int g = (color >> 8) & 0xff;
-            int b = (color) & 0xff;
-            return 0.299*r + 0.587*g + 0.114*b;
+
+    public void drawHistogram(double[][] a) {
+        int m = a.length;
+        int n = a[0].length;
+        int pixels = m * n;
+        int[] histogram = new int[256];
+        StdDraw.setPenColor(StdDraw.BOOK_BLUE);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int intensity = (int) a[i][j];
+                histogram[intensity]++;
+            }
         }
+        StdDraw.setXscale(0, 256);
+        StdDraw.setYscale(0, pixels / 20); // obtained "20" by experimentation
+        StdDraw.enableDoubleBuffering();
+        for (int i = 0; i < 256; i++) {
+            StdDraw.filledRectangle(i + 0.5, histogram[i] / 2, 0.5, histogram[i] / 2);
+        }
+        StdDraw.show();
+    }
+
+    public double getIntensity(int color) // this method produces monochrome luminance
+    {
+        int r = (color >> 16) & 0xff;
+        int g = (color >> 8) & 0xff;
+        int b = (color) & 0xff;
+        return 0.299 * r + 0.587 * g + 0.114 * b;
     }
 }
