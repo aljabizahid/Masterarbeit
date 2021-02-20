@@ -27,14 +27,15 @@ public class Main {
         imgProcessor = new ImageProcessor();
         skewDetCorr = new HullSkewDetect();
         Hogh_Transform = new Deteection_Correction();
-        clipping = new Clipping();
         imageAnalysis=new ImageAnalysis();
 
 
         String filename = "Test_20.jpg";
-        boolean Adaptive= false;
+        boolean Adaptive= true;
         // String new_filename = "Test.png";
         BufferedImage orgImage = imgProcessor.loadImage(filename);
+        clipping = new Clipping(orgImage.getWidth(), orgImage.getHeight());
+
         BufferedImage copyImage = imgProcessor.duplicateBufferedImage(orgImage,Adaptive);
         // imgProcessor.saveImage(new_filename, copyImage);
         BufferedImage GrayImage = imgProcessor.getGrayImage(copyImage,Adaptive);

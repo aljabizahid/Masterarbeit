@@ -5,8 +5,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
+import com.sun.j3d.utils.scenegraph.io.state.javax.media.j3d.LightState;
 import edu.princeton.cs.introcs.StdDraw;
+import edu.princeton.cs.introcs.StdStats;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -17,6 +22,15 @@ import javax.imageio.ImageIO;
 
 
 public class Clipping {
+    private int imageWidth;
+    private int imageHeight;
+
+    public Clipping(int imageWidth, int imageHeight) {
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
+        //StdDraw.setCanvasSize(imageWidth, imageHeight);
+    }
+
     public int[] Vertical_projection(int[][] pixels, String filename) throws IOException {
         int cols = pixels.length;
         int rows = pixels[0].length;
@@ -115,6 +129,15 @@ public class Clipping {
         }
         drawHistogram(histogramm_x, "x", filename);
     }
+
+    public void drawHistogramx(int[] a, String R, String filename) throws IOException {
+        Histogram histogram = new Histogram(a.length);
+        for (int i = 0; i < a.length; i++) {
+            histogram.addDataPoint(a[i]);
+        }
+        //StdDraw.setCanvasSize(a.length, a.length);
+        histogram.draw();
+    }
     public void drawHistogram(int[] a, String R, String filename) throws IOException {
         double[] x = new double[a.length];
         double[] y = new double[a.length];
@@ -129,17 +152,42 @@ public class Clipping {
 //        StdDraw.setCanvasSize(700, 700);
 //        StdDraw.picture(img.getWidth()/2,img.getHeight()/2,filename);
 
+
         if (R == "y") {
-            StdDraw.setXscale(100, 0);
-            StdDraw.setYscale(a.length, 0);
-            StdDraw.setPenColor(StdDraw.BOOK_RED);
-            StdDraw.polygon(y, x);
-        } else if (R == "x") {
-            StdDraw.setXscale(0, a.length);
-            StdDraw.setYscale(0, 40);
-            StdDraw.setPenColor(StdDraw.BOOK_RED);
-            StdDraw.polygon(x, y);
+            List list = Arrays.asList(y);
+            StdDraw.setYscale(-1, 200);  // to leave a little border
+            StdStats.plotBars(y);
         }
+        else{
+            List list = Arrays.asList(y);
+            StdDraw.setYscale(-1, 200);  // to leave a little border
+            StdStats.plotBars(y);
+        }
+
+
+//        if (R == "y") {
+//            StdDraw.setXscale(100, 0);
+//            StdDraw.setYscale(a.length, 0);
+//            StdDraw.setPenColor(StdDraw.BOOK_RED);
+//            StdDraw.polygon(y, x);
+//        } else if (R == "x") {
+//            StdDraw.setXscale(0, a.length);
+//            StdDraw.setYscale(0, 40);
+//            StdDraw.setPenColor(StdDraw.BOOK_RED);
+//            StdDraw.polygon(x, y);
+//        }
+//        if (R == "y") {
+//            StdDraw.setXscale(100, 0);
+//            StdDraw.setYscale(a.length, 0);
+//            StdDraw.setPenColor(StdDraw.BOOK_RED);
+//            //StdDraw.line(x, 0,x,y);
+//            StdDraw.polygon(y, x);
+//        } else if (R == "x") {
+//            StdDraw.setXscale(0, a.length);
+//            StdDraw.setYscale(0, 40);
+//            StdDraw.setPenColor(StdDraw.BOOK_RED);
+//            StdDraw.polygon(x, y);
+//        }
         StdDraw.show();
     }
     public int[] Ableitung(int[] Spalten){

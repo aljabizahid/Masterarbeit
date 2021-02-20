@@ -64,9 +64,11 @@ public class ImageProcessor<voids> {
                 img_pixels[i][j] = (r + g + b) / 3;
                 //System.out.println(img_pixels[i][j]);
                 if (img_pixels[i][j] > 220) {
-                    img_pixels[i][j] = 1;
-                } else {
+                    //img_pixels[i][j] = 1;
                     img_pixels[i][j] = 0;
+                } else {
+                    //img_pixels[i][j] = 0;
+                    img_pixels[i][j] = 1;
 
                 }
                 //
@@ -79,7 +81,9 @@ public class ImageProcessor<voids> {
     public Mat BinaryFoto(Mat img, boolean Ad) {
         Mat Out = new Mat();
         if (Ad) {
-            Imgproc.adaptiveThreshold(img, Out, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, -2);
+            Mat newImage = new Mat();
+            Imgproc.cvtColor(img, newImage, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.adaptiveThreshold(newImage, Out, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 11, 40);
         } else {
             Imgproc.threshold(img, Out, 180, 500, Imgproc.THRESH_BINARY);
         }
